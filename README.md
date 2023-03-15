@@ -6,7 +6,5 @@ For the virtual environment: **pip install -r requirements.txt**
 The pre-trained UNET model takes long time to generate the lung mask for the whole train, validation, and test datasets. 
 
 - The pre-trained UNET mask for the train data can be found [here](https://drive.google.com/drive/folders/17kwmu5-Xi3WAPLjSK06ACwXBL5st8vC2?usp=sharing).
-
 * The pre-trained UNET mask for the validation data can be found [here](https://drive.google.com/drive/folders/1Znx_NnX7xxxIY3aejT1OuLDT5MdzKlg9?usp=sharing).
-
 + The pre-trained UNET mask for the test data can be found [here](https://drive.google.com/drive/folders/1Ix2uhWO8_Hq200Uf2EhOCLBRn_dKcwi4?usp=sharing).
