@@ -1,7 +1,7 @@
 # Enhancing-COVID-19-Severity-Analysis-through-Ensemble-Methods
  In this study, we propose a domain knowledge-based pipeline for extracting regions of infection in COVID-19 patients using a combination of image-processing algorithms and a pre-trained UNET model. The severity of the infection is then classified into different categories using an ensemble of three machine-learning models: Extreme Gradient Boosting, Extremely Randomized Trees, and Support Vector Machine. The proposed system was evaluated on a validation dataset in the AI-Enabled Medical Image Analysis Workshop and COVID-19 Diagnosis Competition (AI-MIA-COV19D) and achieved a macro F1 score of 64\%. These results demonstrate the potential of combining domain knowledge with machine learning techniques for accurate COVID-19 diagnosis using CT scans.
 
-For the virtual environment: **pip install -r requirements.txt**
+0. For the virtual environment: **pip install -r requirements.txt**
 
 1. Download the datasets (train, validation, and test) and the .xlsx files (groundtruth) to the **Dataset** folder.
 
