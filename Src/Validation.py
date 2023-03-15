@@ -6,16 +6,16 @@ from utils import *
 from Generate_Lung_Mask import *
 from Extract_feature_vector import *
 
-gt_filename = '../Dataset/.xlsx' # Path to ground truth file in .xlsx format
-path = '../Temp_dir/Validation/Masks_and_Images/' #Path to train-dataset
+gt_filename = '../Dataset/groundtruth_validation.xlsx' # Path to ground truth file in .xlsx format
+path = '../Dataset/Validation/' #Path to train-dataset
 mask_image_path = '../Temp_dir/Validation/Masks_and_Images/' #Path to lung mask and original ct images
 temp_dir = '../Temp_dir/Validation/All_files/'   #Path to store the images, mask, and segmented images
 
 preprocessed_path = '../Temp_dir/Validation/Preprocessed_Images/' # Path to the infection segementation
 feat_filename = 'features_Validation.npy' # Validation feature filename
 feat_dir = '../Features/Validation/' # Path to Validation feature directory
-result_dir = '../Results/Models/'
-model_dir = '../Models/saved_models1/'
+result_dir = '../Results/Models/' #Path to the results for submission
+model_dir = '../Models/saved_models1/' # Path to the pickle file for the trained models
 
 if not os.path.exists(feat_dir):
 	os.makedirs(feat_dir)
@@ -36,30 +36,45 @@ patients = os.listdir(path)
 pdb.set_trace()
 sorted_patients = sorted(patients, key=lambda x: int(x.split('.')[0].split('_')[2]))
 lung_threshold = 0.07
-counter = 0
+
+
+'''
+Pretrained UNET model takes huge time to generate the lung Mask. 
+The authors generated the lung mask and provided a link to download the lung mask for the training data.
+Download the lung mask to '../Temp_dir/Validation/Masks_and_Images/'
+If new dataset is using then  uncomment the following three lines of code to generate the lung mask.
+'''
 
 # for patient in tqdm(sorted_patients, desc = 'Testing patient\'s CT_scans'):
 # 	perform_maskUnetandResizeslices(path, patient, mask_image_path, temp_dir)
 	
-# 	counter = counter + 1
-# pdb.set_trace()
+''' 
+Feature extraction is used with the help of multiprocessing the machine. 
+The features extracted for the given challenge dataset also provided.
+If a new dataset is using then uncomment the following eight lines of code.
+'''
+
 # num_cores = multiprocessing.cpu_count() - 5
 # infection_rate = Parallel(n_jobs=num_cores)(delayed(Extract_features)(mask_image_path, patient, preprocessed_path, lung_threshold)for patient in (sorted_patients))
-
 # for i, pair_value in enumerate(infection_rate):
 # 	Patientwise_infection_features.append(pair_value[1])
 # 	score = find_final_severity_score(pair_value[0])
 # 	severity_predictions.append(score)
-# pdb.set_trace()
-
 #np.save(feat_dir +feat_filename, np.array(Patientwise_infection_features, dtype=object), allow_pickle=True)
-features_list = (np.load(os.path.join(feat_dir +feat_filename), allow_pickle=True))
-X_test = Create_input_features(features_list)
 #X_test = Create_input_features(Patientwise_infection_features)
 
+'''
+If the stored feature is using for the training of the model then uncomment the following two lines of code.
+Download the features to ../Features/Validation/features_train.npy
+'''
+
+features_list = (np.load(os.path.join(feat_dir +feat_filename), allow_pickle=True))
+X_test = Create_input_features(features_list)
 
 
-# ### Evaluating the models
+
+
+#### Evaluating the models
 
 ##### Weighted average method
 # cm = confusion_matrix(y_test, severity_predictions)

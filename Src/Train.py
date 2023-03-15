@@ -9,16 +9,16 @@ import joblib
 import pickle
 
 
-gt_filename = '../Dataset/.xlsx' # Path to ground truth file in .xlsx format
+gt_filename = '../Dataset/groundtruth_train.xlsx' # Path to ground truth file in .xlsx format
 
 path = '../Dataset/Train/' #Path to train-dataset
-mask_image_path = '../Temp_dir/Train/Masks_and_Images/'
-temp_dir = '../Temp_dir/Train/All_files/'
-preprocessed_path = '../Temp_dir/Train/Preprocessed_Images/'
+mask_image_path = '../Temp_dir/Train/Masks_and_Images/' #Path to lung mask and original ct images
+temp_dir = '../Temp_dir/Train/All_files/' #Path to store the images, mask, and segmented images
+preprocessed_path = '../Temp_dir/Train/Preprocessed_Images/' # Path to the infection segementation
 
-feat_filename = 'features_train.npy'
-feat_dir = '../Features/Train/'
-model_dir = '../Models/saved_models1/'
+feat_filename = 'features_train.npy' # Train feature filename
+feat_dir = '../Features/Train/' # Path to Validation feature directory
+model_dir = '../Models/saved_models1/'  # Path to the pickle file for the trained models
 
 if not os.path.exists(feat_dir):
 	os.makedirs(feat_dir)
@@ -31,7 +31,7 @@ val_Y= list(map(int, df['Category']-1))
 y_train = np.asarray(val_Y, dtype=np.int64)
 train_patients = list(df['Name'])
 
-pdb.set_trace()
+
 Percentage_patientwise_infection = {}
 Patientwise_infection_features = []
 patients = os.listdir(path)
@@ -52,7 +52,7 @@ If new dataset is using then  uncomment the following three lines of code to gen
 ''' 
 Feature extraction is used with the help of multiprocessing the machine. 
 The features extracted for the given challenge dataset also provided.
-If a new dataset is using then uncomment the following five lines of code.
+If a new dataset is using then uncomment the following six lines of code.
 '''
 
 # num_cores = multiprocessing.cpu_count() - 2
