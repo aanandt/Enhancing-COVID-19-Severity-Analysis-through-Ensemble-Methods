@@ -51,6 +51,7 @@ Feature extraction is used with the help of multiprocessing the machine.
 The features extracted for the given challenge dataset also provided.
 If a new dataset is using then uncomment the following five lines of code.
 '''
+
 # num_cores = multiprocessing.cpu_count() - 5
 # infection_rate = Parallel(n_jobs=num_cores)(delayed(Extract_features)(mask_image_path, patient, preprocessed_path, lung_threshold)for patient in (sorted_patients))
 # for i, pair_value in enumerate(infection_rate):

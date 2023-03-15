@@ -7,13 +7,13 @@ from Generate_Lung_Mask import *
 from Extract_feature_vector import *
 
 gt_filename = '../Dataset/.xlsx' # Path to ground truth file in .xlsx format
-path = '../Temp_dir/Validation/Masks_and_Images/'
-mask_image_path = '../Temp_dir/Validation/Masks_and_Images/'
-temp_dir = '../Temp_dir/Validation/All_files/'
+path = '../Temp_dir/Validation/Masks_and_Images/' #Path to train-dataset
+mask_image_path = '../Temp_dir/Validation/Masks_and_Images/' #Path to lung mask and original ct images
+temp_dir = '../Temp_dir/Validation/All_files/'   #Path to store the images, mask, and segmented images
 
-preprocessed_path = '../Temp_dir/Validation/Preprocessed_Images/'
-feat_filename = 'features_Validation.npy'
-feat_dir = '../Features/Validation/'
+preprocessed_path = '../Temp_dir/Validation/Preprocessed_Images/' # Path to the infection segementation
+feat_filename = 'features_Validation.npy' # Validation feature filename
+feat_dir = '../Features/Validation/' # Path to Validation feature directory
 result_dir = '../Results/Models/'
 model_dir = '../Models/saved_models1/'
 
