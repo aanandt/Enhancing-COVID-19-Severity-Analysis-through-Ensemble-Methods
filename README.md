@@ -3,6 +3,8 @@
 
 For the virtual environment: **pip install -r requirements.txt**
 
+Download the datasets (train, validation, and test) and the .xlsx files (groundtruth) to the **Dataset** folder.
+
 The pre-trained UNET model takes long time to generate the lung mask for the whole train, validation, and test datasets. 
 
 - The pre-trained UNET mask for the train data can be found [here](https://drive.google.com/drive/folders/17kwmu5-Xi3WAPLjSK06ACwXBL5st8vC2?usp=sharing).
