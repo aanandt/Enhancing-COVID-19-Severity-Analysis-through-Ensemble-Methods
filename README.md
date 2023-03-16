@@ -13,11 +13,14 @@
 
 3. Feature level representation is generated from the pre-processed image and can be download from the following [link](https://drive.google.com/drive/folders/1uzww47_Iuj_V_h1cs8e--hVgbkjCauYU?usp=sharing).
 4. Run the following command to train the models.
-    - python Src/Train.py
+    - cd Src
+    - python Train.py
     - If any new dataset is used then the istructions are provided in the Train.py file.
 5. Run the following command to check the performance on the trained models in the validation dataset.
-    - python Src/Validation.py
+    - cd Src
+    - python Validation.py
     - If any new dataset is used then the istructions are provided in the Validation.py file.
 6. Run the following command to check the performance on the trained models in the challenge test dataset.
-    - python Src/Test.py
+    - cd Src
+    - python Test.py
     - If any new dataset is used then the istructions are provided in the Test.py file.
