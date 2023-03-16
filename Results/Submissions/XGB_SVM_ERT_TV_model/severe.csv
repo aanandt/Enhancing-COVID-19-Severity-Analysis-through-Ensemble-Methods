@@ -49,6 +49,7 @@ test_ct_scan_131
 test_ct_scan_132
 test_ct_scan_134
 test_ct_scan_136
+test_ct_scan_141
 test_ct_scan_142
 test_ct_scan_145
 test_ct_scan_146
@@ -79,6 +80,7 @@ test_ct_scan_189
 test_ct_scan_190
 test_ct_scan_191
 test_ct_scan_196
+test_ct_scan_197
 test_ct_scan_198
 test_ct_scan_199
 test_ct_scan_200

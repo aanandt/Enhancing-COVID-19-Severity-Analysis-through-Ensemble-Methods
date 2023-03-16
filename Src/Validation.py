@@ -45,7 +45,7 @@ Download the lung mask to '../Temp_dir/Validation/Masks_and_Images/'
 If new dataset is using then  uncomment the following three lines of code to generate the lung mask.
 '''
 
-# for patient in tqdm(sorted_patients, desc = 'Testing patient\'s CT_scans'):
+# for patient in tqdm(sorted_patients, desc = 'Generating lung mask for patient\'s CT_scans'):
 # 	perform_maskUnetandResizeslices(path, patient, mask_image_path, temp_dir)
 	
 ''' 
