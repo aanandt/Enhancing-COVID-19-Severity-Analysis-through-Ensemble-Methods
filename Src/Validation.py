@@ -65,7 +65,7 @@ If a new dataset is using then uncomment the following eight lines of code.
 
 '''
 If the stored feature is using for the training of the model then uncomment the following two lines of code.
-Download the features to ../Features/Validation/features_train.npy
+Download the features to ../Features/Validation/features_validation.npy
 '''
 
 features_list = (np.load(os.path.join(feat_dir +feat_filename), allow_pickle=True))

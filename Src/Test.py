@@ -50,20 +50,20 @@ The features extracted for the given challenge dataset also provided.
 If a new dataset is using then uncomment the following six lines of code.
 '''
 
-num_cores = multiprocessing.cpu_count() - 5
-infection_rate = Parallel(n_jobs=num_cores)(delayed(Extract_features)(mask_image_path, patient, preprocessed_path, lung_threshold)for patient in (sorted_patients))
-for i, pair_value in enumerate(infection_rate):
-	Patientwise_infection_features.append(pair_value[1])
-np.save(feat_dir +feat_filename, np.array(Patientwise_infection_features, dtype=object), allow_pickle=True)
-X_test = Create_input_features(Patientwise_infection_features)
+# num_cores = multiprocessing.cpu_count() - 5
+# infection_rate = Parallel(n_jobs=num_cores)(delayed(Extract_features)(mask_image_path, patient, preprocessed_path, lung_threshold)for patient in (sorted_patients))
+# for i, pair_value in enumerate(infection_rate):
+# 	Patientwise_infection_features.append(pair_value[1])
+# np.save(feat_dir +feat_filename, np.array(Patientwise_infection_features, dtype=object), allow_pickle=True)
+# X_test = Create_input_features(Patientwise_infection_features)
 
 '''
 If the stored feature is using for the training of the model then uncomment the following two lines of code.
-Download the features to ../Features/Test/features_train.npy
+Download the features to ../Features/Test/features_test.npy
 '''
 
-# features_list = (np.load(os.path.join(feat_dir +feat_filename), allow_pickle=True))
-# X_test = Create_input_features(features_list)
+features_list = (np.load(os.path.join(feat_dir +feat_filename), allow_pickle=True))
+X_test = Create_input_features(features_list)
 
 # ### Generating predictions for the test data
 

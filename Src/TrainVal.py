@@ -48,16 +48,14 @@ lung_threshold = 0.07
 # 	if patient in train_patients:
 # 		masks, images = perform_maskUnetandResizeslices(path, patient, mask_image_path, temp_dir)
 		
-# pdb.set_trace()
 
 # num_cores = multiprocessing.cpu_count() - 5
 # infection_rate = Parallel(n_jobs=num_cores)(delayed(Extract_features)(path, patient, preprocessed_path, lung_threshold)for patient in (sorted_patients))
 # #severity_score, features = Extract_features(masks, images, patient, preprocessed_path, lung_threshold)
 # for i, pair_value in enumerate(infection_rate):
 # 	Patientwise_infection_features.append(pair_value[1])
-# pdb.set_trace()
-
 # np.save(feat_dir +feat_filename, np.array(Patientwise_infection_features, dtype=object), allow_pickle=True)
+
 features_list = (np.load(os.path.join(feat_dir +feat_filename), allow_pickle=True))
 X_train = Create_input_features(features_list)
 features_list = (np.load(os.path.join('../Features/Validation/features_Validation.npy'), allow_pickle=True))
@@ -65,8 +63,8 @@ X_val = Create_input_features(features_list)
 
 X_train_val = np.concatenate((X_train, X_val), axis=0)
 y_train_val = np.concatenate((y_train, y_val))
-pdb.set_trace()
-#X_train = Create_input_features(Patientwise_infection_features)
+
+
 #### Training the models
 
 lgr_model = train_classsifier('Logistic_regression', X_train_val, y_train_val, model_dir)
@@ -82,31 +80,23 @@ gradient_boost_model = train_classsifier('GradientBoostingClassifier', X_train_v
 extra_tree_model = train_classsifier('ExtraTreesClassifier', X_train_val, y_train_val, model_dir)
 mlp_model = train_classsifier('Neural Network', X_train_val, y_train_val, model_dir)
 
-pdb.set_trace()
 
-# estimators=[('rf', rf_model), ('decision_tree', dtree_model), ('xgboost_classifier', xgb_model)]
-# #create our voting classifier, inputting our models
-# ensemble = VotingClassifier(estimators, voting='hard')
-# ensemble.fit(X_train, y_train)
-# pickle.dump(ensemble, open(model_dir+ 'Ensemble' + '.pkl', 'wb'))
-# joblib.dump(ensemble, model_dir+ 'Ensemble' + '.sav')
-
-estimators=[('rf', rf_model), ('svm', svm_model), ('extra_tree', extra_tree_model)]
 #create our voting classifier, inputting our models
+estimators=[('rf', rf_model), ('svm', svm_model), ('extra_tree', extra_tree_model)]
 ensemble = VotingClassifier(estimators, voting='hard', flatten_transform=True)
 ensemble.fit(X_train_val, y_train_val)
 pickle.dump(ensemble, open(model_dir+ 'Ensemble' + '.pkl', 'wb'))
 joblib.dump(ensemble, model_dir+ 'Ensemble' + '.sav')
 
-estimators=[('xgboost_classifier', xgb_model), ('svm', svm_model), ('extra_tree', extra_tree_model)]#, ('decision_tree', dtree_model)]#('cat_boost', cat_boost_model)]#, ('decision_tree', dtree_model)]
 #create our voting classifier, inputting our models
+estimators=[('xgboost_classifier', xgb_model), ('svm', svm_model), ('extra_tree', extra_tree_model)]#, ('decision_tree', dtree_model)]#('cat_boost', cat_boost_model)]#, ('decision_tree', dtree_model)]
 ensemble1 = VotingClassifier(estimators, voting='hard',  flatten_transform=True)
 ensemble1.fit(X_train_val, y_train_val)
 pickle.dump(ensemble1, open(model_dir+ 'Ensemble1' + '.pkl', 'wb'))
 joblib.dump(ensemble1, model_dir+ 'Ensemble1' + '.sav')
 
-estimators=[('gradient_boost_classifier', gradient_boost_model), ('ada_boost', ada_boost_model), ('extra_tree', extra_tree_model)]#, ('decision_tree', dtree_model)]#('cat_boost', cat_boost_model)]#, ('decision_tree', dtree_model)]
 #create our voting classifier, inputting our models
+estimators=[('gradient_boost_classifier', gradient_boost_model), ('ada_boost', ada_boost_model), ('extra_tree', extra_tree_model)]#, ('decision_tree', dtree_model)]#('cat_boost', cat_boost_model)]#, ('decision_tree', dtree_model)]
 ensemble2 = VotingClassifier(estimators, voting='hard',  flatten_transform=True)
 ensemble2.fit(X_train_val, y_train_val)
 pickle.dump(ensemble2, open(model_dir+ 'Ensemble2' + '.pkl', 'wb'))
