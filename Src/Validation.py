@@ -2,7 +2,7 @@ import os
 from tqdm import tqdm
 import pandas as pd
 from utils import *
-
+import multiprocessing
 from Generate_Lung_Mask import *
 from Extract_feature_vector import *
 
@@ -15,7 +15,7 @@ preprocessed_path = '../Temp_dir/Validation/Preprocessed_Images/' # Path to the 
 feat_filename = 'features_Validation.npy' # Validation feature filename
 feat_dir = '../Features/Validation/' # Path to Validation feature directory
 result_dir = '../Results/Models/' #Path to the results for submission
-model_dir = '../Models/saved_models1/' # Path to the pickle file for the trained models
+model_dir = '../Models/saved_models/' # Path to the pickle file for the trained models
 
 if not os.path.exists(feat_dir):
 	os.makedirs(feat_dir)
@@ -32,7 +32,7 @@ test_patients = list(df['Name'])
 Percentage_patientwise_infection = {}
 Patientwise_infection_features = []
 severity_predictions = []
-patients = os.listdir(path)
+patients = os.listdir(mask_image_path)
 pdb.set_trace()
 sorted_patients = sorted(patients, key=lambda x: int(x.split('.')[0].split('_')[2]))
 lung_threshold = 0.07
@@ -54,22 +54,22 @@ The features extracted for the given challenge dataset also provided.
 If a new dataset is using then uncomment the following eight lines of code.
 '''
 
-# num_cores = multiprocessing.cpu_count() - 5
-# infection_rate = Parallel(n_jobs=num_cores)(delayed(Extract_features)(mask_image_path, patient, preprocessed_path, lung_threshold)for patient in (sorted_patients))
-# for i, pair_value in enumerate(infection_rate):
-# 	Patientwise_infection_features.append(pair_value[1])
-# 	score = find_final_severity_score(pair_value[0])
-# 	severity_predictions.append(score)
-#np.save(feat_dir +feat_filename, np.array(Patientwise_infection_features, dtype=object), allow_pickle=True)
-#X_test = Create_input_features(Patientwise_infection_features)
+num_cores = multiprocessing.cpu_count() - 5
+infection_rate = Parallel(n_jobs=num_cores)(delayed(Extract_features)(mask_image_path, patient, preprocessed_path, lung_threshold)for patient in (sorted_patients))
+for i, pair_value in enumerate(infection_rate):
+	Patientwise_infection_features.append(pair_value[1])
+	score = find_final_severity_score(pair_value[0])
+	severity_predictions.append(score)
+np.save(feat_dir +feat_filename, np.array(Patientwise_infection_features, dtype=object), allow_pickle=True)
+X_test = Create_input_features(Patientwise_infection_features)
 
 '''
 If the stored feature is using for the training of the model then uncomment the following two lines of code.
 Download the features to ../Features/Validation/features_validation.npy
 '''
 
-features_list = (np.load(os.path.join(feat_dir +feat_filename), allow_pickle=True))
-X_test = Create_input_features(features_list)
+#features_list = (np.load(os.path.join(feat_dir +feat_filename), allow_pickle=True))
+#X_test = Create_input_features(features_list)
 
 
 
@@ -77,21 +77,22 @@ X_test = Create_input_features(features_list)
 #### Evaluating the models
 
 ##### Weighted average method
-# cm = confusion_matrix(y_test, severity_predictions)
-# print(cm)
-# ax = plt.subplot()
-# sns.set(font_scale=3.0)
-# sns.heatmap(cm, annot=True, cmap='Blues', cbar=False)
-# title_font = {'size':'30'}  # Adjust to fit
-# ax.set_title('Confusion Matrix', fontdict=title_font);
-# ax.tick_params(axis='both', which='major', labelsize=30)  # Adjust to fit
-# ax.xaxis.set_ticklabels(['Mi' , 'Mo', 'Se', 'Cr']);
-# ax.yaxis.set_ticklabels(['Mi' , 'Mo', 'Se', 'Cr']);
-# plt.show()
-# plt.savefig(result_dir+'WAM_confusionmatrix.png')
-# plt.close()
-# print(classification_report(y_test, severity_predictions,target_names=['Mild', 'Moderate', 'Severe', 'Critical']))
+cm = confusion_matrix(y_test, severity_predictions)
+print(cm)
+ax = plt.subplot()
+sns.set(font_scale=3.0)
+sns.heatmap(cm, annot=True, cmap='Blues', cbar=False)
+title_font = {'size':'30'}  # Adjust to fit
+ax.set_title('Confusion Matrix', fontdict=title_font);
+ax.tick_params(axis='both', which='major', labelsize=30)  # Adjust to fit
+ax.xaxis.set_ticklabels(['Mi' , 'Mo', 'Se', 'Cr']);
+ax.yaxis.set_ticklabels(['Mi' , 'Mo', 'Se', 'Cr']);
+plt.show()
+plt.savefig(result_dir+'WAM_confusionmatrix.png')
+plt.close()
+print(classification_report(y_test, severity_predictions,target_names=['Mild', 'Moderate', 'Severe', 'Critical']))
 
+pdb.set_trace()
 ### Evaluating ML models
 lgr_model = pickle.load(open(model_dir + 'Logistic_regression.pkl', 'rb'))
 Evaluate_model('Logistic_regression', lgr_model,  X_test, y_test, result_dir)

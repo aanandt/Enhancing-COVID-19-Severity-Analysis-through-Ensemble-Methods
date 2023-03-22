@@ -2,7 +2,6 @@ import os
 from tqdm import tqdm
 import pandas as pd
 from utils import *
-import joblib
 from Generate_Lung_Mask import *
 from Extract_feature_vector import *
 import joblib
